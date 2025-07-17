@@ -1,0 +1,13 @@
+#cloud-config
+users:
+  - name: {{ vm_user }}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    lock_passwd: false
+    passwd: {{ vm_password }}
+ssh_pwauth: true
+runcmd:
+  - subscription-manager register --auto-attach --activationkey={{ rhel_subscription_key }} --org=<org>
+  - yum groupinstall -y "Core" --skip-broken
+  - systemctl enable sshd
+  - systemctl start sshd
+package_update: true

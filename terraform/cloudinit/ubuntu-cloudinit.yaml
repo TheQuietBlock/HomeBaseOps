@@ -1,0 +1,11 @@
+#cloud-config
+users:
+  - name: {{ vm_user }}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    lock_passwd: false
+    passwd: {{ vm_password }}
+ssh_pwauth: true
+package_update: true
+runcmd:
+  - systemctl enable ssh
+  - systemctl start ssh

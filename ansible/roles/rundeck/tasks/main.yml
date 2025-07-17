@@ -1,0 +1,53 @@
+---
+- name: Install dependencies
+  apt:
+    name:
+      - openjdk-11-jre
+      - git
+      - make
+    update_cache: yes
+
+- name: Download Rundeck GPG key (ASCII)
+  ansible.builtin.get_url:
+    url: https://packages.rundeck.com/pagerduty/rundeck/gpgkey
+    dest: /tmp/rundeck.gpg
+    mode: '0644'
+
+- block:
+    - name: Convert Rundeck GPG key to binary
+      become: true
+      ansible.builtin.command:
+        cmd: "gpg --dearmor -o /usr/share/keyrings/rundeck-archive-keyring.gpg /tmp/rundeck.gpg"
+        creates: /usr/share/keyrings/rundeck-archive-keyring.gpg
+
+    - name: Add Rundeck APT repository
+      become: true
+      ansible.builtin.apt_repository:
+        repo: "deb [signed-by=/usr/share/keyrings/rundeck-archive-keyring.gpg] https://packages.rundeck.com/pagerduty/rundeck/any/ any main"
+        state: present
+        filename: 'rundeck'
+
+    - name: Remove temporary Rundeck key
+      become: true
+      ansible.builtin.file:
+        path: /tmp/rundeck.gpg
+        state: absent
+
+
+- name: Ensure repo exists for automation
+  become: true
+  git:
+    repo: 'https://github.com/TheQuietBlock/HomebaseOps.git'
+    dest: /home/patrick/HomebaseOps
+    force: yes
+    update: yes
+
+- block:
+    - name: Create cronjob for automation
+      become: true
+      cron:
+        name: "homelab automation"
+        user: root
+        minute: "*/30"
+        job: "cd /home/patrick/HomebaseOps && git pull && make all"
+

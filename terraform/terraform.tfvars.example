@@ -1,0 +1,36 @@
+Proxmox API connection
+proxmox_url = "https://proxmox.example.com:8006/api2/json"
+proxmox_api_token_id = "root@pam!terraform"
+proxmox_api_token_secret = "changeme"
+
+# Proxmox node where VMs will be created
+proxmox_node = "proxmox"
+
+# Default VM credentials
+vm_user = "clouduser"
+vm_password = "P@ssw0rd"
+ssh_public_key = "ssh-rsa AAAA..."
+
+# Red Hat subscription activation key for RHEL VMs
+rhel_subscription_key = "activation-key"
+
+# VLAN configuration example
+vlans = {
+  home = {
+    vlan_id     = 10
+    subnet      = "192.168.10.0/24"
+    gateway     = "192.168.10.1"
+    description = "network"
+  }
+  server = {
+    vlan_id     = 20
+    subnet      = "192.168.20.0/24"
+    gateway     = "192.168.20.1"
+    description = "network"
+  }
+}
+
+# Assign IP addresses to the test VMs defined in locals.tf
+vm_ip_addresses = {
+servername = "192.168.xx.xx"
+}

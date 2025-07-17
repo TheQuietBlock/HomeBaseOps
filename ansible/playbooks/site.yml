@@ -1,0 +1,41 @@
+---
+- name: Master Site Playbook
+  hosts: all_servers
+  gather_facts: true
+  vars_files:
+    - group_vars/all/vault.yml
+
+  tasks:
+    - name: Ensure ~/.ssh directory exists
+      file:
+        path: "/home/{{ ansible_ssh_user }}/.ssh"
+        state: directory
+        mode: '0700'
+        owner: "{{ ansible_ssh_user }}"
+        group: "{{ ansible_ssh_user }}"
+
+    - name: Add public key to authorized_keys
+      ansible.posix.authorized_key:
+        user: "{{ ansible_ssh_user }}"
+        password: "{{ ansible_ssh_pass }}"
+        state: present
+        key: "{{ my_ssh_public_key }}"
+
+- hosts: minecraft
+  become: true
+  roles:
+    - base
+    - minecraft
+
+- hosts: automation
+  become: true
+  roles:
+    - base
+    - rundeck
+
+- hosts: docker
+  become: true
+  roles:
+    - base
+    - docker
+

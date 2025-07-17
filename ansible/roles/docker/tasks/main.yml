@@ -1,0 +1,88 @@
+---
+- block:
+    - name: Install required system packages
+      become: true
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg-agent
+          - software-properties-common
+        state: present
+        update_cache: yes
+
+- block:
+    - name: Download Docker GPG key (ASCII)
+      become: true
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /tmp/docker.gpg
+        mode: '0644'
+
+    - name: Convert Docker GPG key to binary
+      become: true
+      ansible.builtin.command:
+        cmd: "gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg /tmp/docker.gpg"
+        creates: /usr/share/keyrings/docker-archive-keyring.gpg
+
+    - name: Add Docker APT repository
+      become: true
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+        filename: 'docker'
+
+    - name: Remove temporary Docker key
+      become: true
+      ansible.builtin.file:
+        path: /tmp/docker.gpg
+        state: absent
+    
+# Removed duplicate Docker repository addition (already handled above)
+
+
+- block:
+    - name: Install Docker
+      become: true
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: latest
+        update_cache: yes
+
+
+- block:
+    - name: Ensure Docker service is running
+      become: true
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Initialize Docker Swarm (manager)
+      become: true
+      shell: docker swarm init --advertise-addr {{ ansible_host }}
+      args:
+        creates: /var/lib/docker/swarm
+      register: swarm_init
+      when: inventory_hostname == groups['docker'][0]
+      failed_when: "'Error response from daemon: This node is already part of a swarm' not in swarm_init.stderr and swarm_init.rc != 0"
+
+    - name: Get Swarm join token
+      become: true
+      shell: docker swarm join-token -q worker
+      delegate_to: "{{ groups['docker'][0] }}"
+      run_once: true
+      register: worker_join_token
+
+    - name: Join worker nodes to Swarm
+      become: true
+      shell: docker swarm join --token {{ worker_join_token.stdout }} {{ hostvars[groups['docker'][0]].ansible_host }}:2377
+      when: inventory_hostname != groups['docker'][0]
+      register: join_result
+      failed_when:
+        - join_result.rc != 0
+        - "'This node is already part of a swarm' not in join_result.stderr"
