@@ -86,3 +86,39 @@
       failed_when:
         - join_result.rc != 0
         - "'This node is already part of a swarm' not in join_result.stderr"
+
+    - name: Install python3-pip
+      become: true
+      apt:
+        name: python3-pip
+        state: present
+
+    - name: Install Docker Compose
+      become: true
+      pip:
+        name: docker-compose
+        state: present
+
+    - name: Ensure stack directory exists
+      become: true
+      file:
+        path: /opt/docker-stacks
+        state: directory
+        mode: '0755'
+      when: inventory_hostname == groups['docker'][0]
+
+    - name: Copy docker-compose files to manager
+      become: true
+      copy:
+        src: "{{ item }}"
+        dest: "/opt/docker-stacks/{{ item | dirname | basename }}.yml"
+      with_fileglob:
+        - "{{ playbook_dir }}/../compose/*/docker-compose.yml"
+      when: inventory_hostname == groups['docker'][0]
+
+    - name: Deploy docker stacks
+      become: true
+      shell: docker stack deploy -c /opt/docker-stacks/{{ item | dirname | basename }}.yml {{ item | dirname | basename }}
+      with_fileglob:
+        - "{{ playbook_dir }}/../compose/*/docker-compose.yml"
+      when: inventory_hostname == groups['docker'][0]

@@ -99,6 +99,11 @@ HomebaseOps/
 │   ├── modules/             # Reusable modules
 │   │   └── vm/              # VM creation module
 │   └── cloudinit/           # Cloud-init templates
+├── compose/                 # Docker Compose stacks
+│   ├── portainer/           # Example stack
+│   │   └── docker-compose.yml
+│   └── whoami/              # Example stack
+│       └── docker-compose.yml
 └── ansible/                 # Configuration management
     ├── README.md            # Ansible-specific documentation
     ├── ansible.cfg          # Ansible configuration
@@ -146,6 +151,7 @@ The infrastructure uses VLAN-based network segregation:
 - **Manager**: port-o-party-1
 - **Workers**: port-o-party-2, port-o-party-3
 - **Features**: Automatic cluster formation, shared networking
+- **Stacks**: Compose files in `compose/` sync to the swarm
 
 ### Minecraft Server
 - **Java Edition**: Latest stable version
