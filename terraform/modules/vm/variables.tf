@@ -51,8 +51,9 @@ variable "network_bridge" {
 }
 
 variable "vlan_tag" {
-  description = "VLAN tag"
+  description = "VLAN tag (0 for untagged)"
   type        = number
+  default     = 0
 }
 
 variable "ip_address" {
