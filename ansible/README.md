@@ -167,6 +167,7 @@ The dynamic inventory creates the following groups:
 - Docker Swarm cluster configuration
 - Automatic manager/worker node setup
 - Shared networking configuration
+- Auto-deploy compose stacks from `../compose`
 
 **Components**:
 - **Manager Node**: port-o-party-1 (first Docker host)
@@ -754,6 +755,7 @@ ansible-playbook -i inventory.ini playbooks/site.yml --tags "ROLE_NAME"
 
 ### With Services
 - Docker Swarm ready for container deployment
+- Compose files in `../compose` automatically deployed
 - Minecraft server ready for player connections
 - Rundeck ready for job scheduling
 - Wazuh ready for security monitoring

@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  whoami:
+    image: containous/whoami
+    ports:
+      - "8000:80"
+    deploy:
+      replicas: 2
