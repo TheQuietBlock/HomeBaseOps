@@ -11,7 +11,8 @@ module "vms" {
   disk_size      = var.vm_disk_size
   storage        = var.vm_storage
   network_bridge = "vmbr0"
-  vlan_tag       = var.vlans[each.value.vlan].vlan_id
+  # If the VM uses the same VLAN as the Proxmox host, do not tag the interface
+  vlan_tag       = var.vlans[each.value.vlan].vlan_id == var.proxmox_native_vlan ? 0 : var.vlans[each.value.vlan].vlan_id
   ip_address     = each.value.ip_address
   gateway        = var.vlans[each.value.vlan].gateway
   netmask        = tonumber(split("/", var.vlans[each.value.vlan].subnet)[1])

@@ -54,6 +54,13 @@ variable "vlans" {
   }))
 }
 
+# VLAN ID used untagged by the Proxmox host. VMs on this VLAN will have no tag.
+variable "proxmox_native_vlan" {
+  description = "Proxmox host native VLAN"
+  type        = number
+  default     = 55
+}
+
 # VM Defaults
 variable "vm_cores" {
   description = "Default number of CPU cores"

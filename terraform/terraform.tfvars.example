@@ -6,6 +6,9 @@ proxmox_api_token_secret = "changeme"
 # Proxmox node where VMs will be created
 proxmox_node = "proxmox"
 
+# VLAN used by the Proxmox host (untagged)
+proxmox_native_vlan = 55
+
 # Default VM credentials
 vm_user = "clouduser"
 vm_password = "P@ssw0rd"
@@ -32,5 +35,5 @@ vlans = {
 
 # Assign IP addresses to the test VMs defined in locals.tf
 vm_ip_addresses = {
-servername = "192.168.xx.xx"
+  servername = "192.168.xx.xx"
 }

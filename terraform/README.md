@@ -69,6 +69,9 @@ terraform/
    
    # Proxmox node
    proxmox_node = "your-proxmox-node"
+
+    # VLAN used by the Proxmox host (untagged)
+    proxmox_native_vlan = 55
    
    # VM credentials
    vm_user = "your-username"
@@ -214,6 +217,10 @@ vlans = {
   }
 }
 ```
+
+The variable `proxmox_native_vlan` defines which VLAN on `vmbr0` is untagged by
+the Proxmox host. Interfaces assigned to this VLAN will be created without a
+tag to ensure connectivity.
 
 ### IP Address Management
 
