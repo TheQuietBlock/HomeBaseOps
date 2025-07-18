@@ -39,6 +39,7 @@ A comprehensive Infrastructure as Code (IaC) solution for homelab automation usi
 | vm-server-automation | Rundeck automation server | Server (20) | 2 CPU, 2GB RAM |
 | port-o-party-1 | Docker Swarm manager | Server (20) | 4 CPU, 8GB RAM |
 | port-o-party-2 | Docker Swarm worker | Server (20) | 4 CPU, 8GB RAM |
+| port-o-party-3 | Docker Swarm worker | Server (20) | 4 CPU, 8GB RAM |
 | vm-server-minecraft | Minecraft game server | Server (20) | 2 CPU, 2GB RAM |
 | vm-server-wazuh | Security monitoring | Server (20) | 2 CPU, 2GB RAM |
 
@@ -143,7 +144,7 @@ The infrastructure uses VLAN-based network segregation:
 
 ### Docker Swarm Cluster
 - **Manager**: port-o-party-1
-- **Worker**: port-o-party-2
+- **Workers**: port-o-party-2, port-o-party-3
 - **Features**: Automatic cluster formation, shared networking
 
 ### Minecraft Server

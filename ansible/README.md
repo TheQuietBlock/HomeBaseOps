@@ -103,7 +103,7 @@ The dynamic inventory creates the following groups:
 |-------|-----|---------|
 | `all` | All VMs | Global configuration |
 | `automation` | vm-server-automation | Rundeck automation server |
-| `docker` | port-o-party-1, port-o-party-2 | Docker Swarm cluster |
+| `docker` | port-o-party-1, port-o-party-2, port-o-party-3 | Docker Swarm cluster |
 | `minecraft` | vm-server-minecraft | Minecraft game server |
 | `wazuh` | vm-server-wazuh | Security monitoring |
 | `zabbix` | Monitor-o-saurus | Infrastructure monitoring |
@@ -170,7 +170,7 @@ The dynamic inventory creates the following groups:
 
 **Components**:
 - **Manager Node**: port-o-party-1 (first Docker host)
-- **Worker Node**: port-o-party-2 (additional Docker hosts)
+- **Worker Nodes**: port-o-party-2, port-o-party-3
 
 **Key Tasks**:
 ```yaml
@@ -459,6 +459,7 @@ vm-server-minecraft ansible_host=192.168.20.13
 vm-server-wazuh ansible_host=192.168.20.14
 port-o-party-1 ansible_host=192.168.20.11
 port-o-party-2 ansible_host=192.168.20.12
+port-o-party-3 ansible_host=192.168.20.15
 
 [automation]
 vm-server-automation ansible_host=192.168.20.10
@@ -472,6 +473,7 @@ vm-server-wazuh ansible_host=192.168.20.14
 [docker]
 port-o-party-1 ansible_host=192.168.20.11
 port-o-party-2 ansible_host=192.168.20.12
+port-o-party-3 ansible_host=192.168.20.15
 ```
 
 ## 🔧 Usage
