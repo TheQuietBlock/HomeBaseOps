@@ -94,6 +94,7 @@ terraform/
      automation = "192.168.20.10"
      docker1    = "192.168.20.11"
      docker2    = "192.168.20.12"
+     docker3    = "192.168.20.15"
      minecraft  = "192.168.20.13"
      wazuh      = "192.168.20.14"
    }
@@ -172,6 +173,30 @@ locals {
       cloudinit_file = "cloudinit/ubuntu-cloudinit.yaml"
       description    = "Docker server 1"
     }
+
+    docker2 = {
+      name           = "port-o-party-2"
+      vmid           = 104
+      cores          = 4
+      memory         = 8192
+      vlan           = "server"
+      ip_address     = var.vm_ip_addresses["docker2"]
+      os_type        = "ubuntu"
+      cloudinit_file = "cloudinit/ubuntu-cloudinit.yaml"
+      description    = "Docker server 2"
+    }
+
+    docker3 = {
+      name           = "port-o-party-3"
+      vmid           = 105
+      cores          = 4
+      memory         = 8192
+      vlan           = "server"
+      ip_address     = var.vm_ip_addresses["docker3"]
+      os_type        = "ubuntu"
+      cloudinit_file = "cloudinit/ubuntu-cloudinit.yaml"
+      description    = "Docker server 3"
+    }
     # ... additional VMs
   }
 }
@@ -231,6 +256,7 @@ vm_ip_addresses = {
   automation = "192.168.20.10"
   docker1    = "192.168.20.11"
   docker2    = "192.168.20.12"
+  docker3    = "192.168.20.15"
   minecraft  = "192.168.20.13"
   wazuh      = "192.168.20.14"
 }

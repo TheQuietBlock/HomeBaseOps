@@ -15,6 +15,7 @@ get_vm_name() {
     "zabbix") echo "Monitor-o-saurus";;
     "docker1") echo "port-o-party-1";;
     "docker2") echo "port-o-party-2";;
+    "docker3") echo "port-o-party-3";;
     *) echo "vm-server-$key";;
   esac
 }
