@@ -86,3 +86,35 @@
       failed_when:
         - join_result.rc != 0
         - "'This node is already part of a swarm' not in join_result.stderr"
+
+    - name: Verify Docker Swarm status
+      become: true
+      shell: docker node ls
+      register: swarm_status
+      when: inventory_hostname == groups['docker'][0]
+
+    - name: Display Docker Swarm nodes
+      debug:
+        msg: "{{ swarm_status.stdout_lines }}"
+      when: inventory_hostname == groups['docker'][0] and swarm_status.stdout_lines is defined
+
+    - name: Create Docker Swarm networks
+      become: true
+      shell: docker network create --driver overlay --attachable {{ item }} || true
+      loop:
+        - homebase-network
+        - frontend-network
+        - backend-network
+      when: inventory_hostname == groups['docker'][0]
+      register: network_creation
+      failed_when: 
+        - network_creation.rc != 0
+        - "'already exists' not in network_creation.stderr"
+
+    - name: Add docker user to docker group
+      become: true
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: true
+      notify: restart_docker_service

@@ -39,8 +39,8 @@ A comprehensive Infrastructure as Code (IaC) solution for homelab automation usi
 | vm-server-automation | Rundeck automation server | Server (20) | 2 CPU, 2GB RAM |
 | port-o-party-1 | Docker Swarm manager | Server (20) | 4 CPU, 8GB RAM |
 | port-o-party-2 | Docker Swarm worker | Server (20) | 4 CPU, 8GB RAM |
+| port-o-party-3 | Docker Swarm worker | Server (20) | 4 CPU, 8GB RAM |
 | vm-server-minecraft | Minecraft game server | Server (20) | 2 CPU, 2GB RAM |
-| vm-server-wazuh | Security monitoring | Server (20) | 2 CPU, 2GB RAM |
 
 ## 🚀 Quick Start
 
@@ -121,6 +121,12 @@ make apply     # Apply Terraform configuration
 make inventory # Generate Ansible inventory
 make ansible   # Run Ansible playbooks
 make all       # Run complete deployment pipeline
+make test      # Test Docker Swarm setup configuration
+
+# Docker Swarm specific commands
+make docker-deploy # Deploy Docker Swarm cluster
+make docker-status # Check Docker Swarm status
+make docker-help   # Show Docker management options
 ```
 
 ## 🌐 Network Configuration
@@ -142,9 +148,11 @@ The infrastructure uses VLAN-based network segregation:
 ## 📊 Services Overview
 
 ### Docker Swarm Cluster
-- **Manager**: port-o-party-1
-- **Worker**: port-o-party-2
-- **Features**: Automatic cluster formation, shared networking
+- **Manager**: port-o-party-1 (192.168.20.11)
+- **Worker 1**: port-o-party-2 (192.168.20.12)
+- **Worker 2**: port-o-party-3 (192.168.20.13)
+- **Features**: Automatic cluster formation, shared networking, load balancing
+- **Networks**: homebase-network, frontend-network, backend-network
 
 ### Minecraft Server
 - **Java Edition**: Latest stable version
@@ -178,6 +186,7 @@ The infrastructure uses VLAN-based network segregation:
 
 - [Terraform Documentation](terraform/README.md) - Infrastructure provisioning details
 - [Ansible Documentation](ansible/README.md) - Configuration management guide
+- [Docker Swarm Documentation](docs/DOCKER_SWARM.md) - Docker Swarm setup and management
 
 ## 🐛 Troubleshooting
 

@@ -35,5 +35,9 @@ vlans = {
 
 # Assign IP addresses to the test VMs defined in locals.tf
 vm_ip_addresses = {
-  servername = "192.168.xx.xx"
+  automation = "192.168.20.10"
+  docker1    = "192.168.20.11"
+  docker2    = "192.168.20.12"
+  docker3    = "192.168.20.13"
+  minecraft  = "192.168.20.14"
 }
