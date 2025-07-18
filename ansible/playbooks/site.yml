@@ -13,7 +13,6 @@
         mode: '0700'
         owner: "{{ ansible_ssh_user }}"
         group: "{{ ansible_ssh_user }}"
-
     - name: Add public key to authorized_keys
       ansible.posix.authorized_key:
         user: "{{ ansible_ssh_user }}"

@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  adguard:
+    image: adguard/adguardhome:latest
+    container_name: adguard
+    restart: unless-stopped
+    network_mode: "host"  # Host mode for easy DNS port binding (53/udp+tcp)
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - ${CONFIG_DIR}:/opt/adguardhome/conf
+      - ${WORK_DIR}:/opt/adguardhome/work
+    ports:
+      - 3000:3000/tcp   # Web UI setup
+      - 53:53/udp
+      - 80:80/tcp
+      - 443:443/tcp
+    #   - "67:67/udp"       # DHCP,
+    #   - "68:68/tcp"       # DHCP, 
+      - 853:853/tcp       # DNS-over-TLS,
