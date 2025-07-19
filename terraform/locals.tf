@@ -39,17 +39,6 @@ locals {
       cloudinit_file = "cloudinit/ubuntu-cloudinit.yaml"
       description    = "Docker server 2"
     }
-    docker3 = {
-      name           = "port-o-party-3"
-      vmid           = 103
-      cores          = 4
-      memory         = 8192
-      vlan           = "server"
-      ip_address     = var.vm_ip_addresses["docker3"]
-      os_type        = "ubuntu"
-      cloudinit_file = "cloudinit/ubuntu-cloudinit.yaml"
-      description    = "Docker server 2"
-    }
     minecraft = {
       name           = "vm-server-minecraft"
       vmid           = 104
