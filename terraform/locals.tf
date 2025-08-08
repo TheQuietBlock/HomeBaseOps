@@ -72,27 +72,5 @@ locals {
       cloudinit_file = "cloudinit/ubuntu-cloudinit.yaml"
       description    = "Minecraft server"
     }
-      minecraft = {
-      name           = "minecraft-bed-srv001"
-      vmid           = 104
-      cores          = 2
-      memory         = 4096
-      vlan           = "server"
-      ip_address     = var.vm_ip_addresses["minecraft3"]
-      os_type        = "ubuntu"
-      cloudinit_file = "cloudinit/ubuntu-cloudinit.yaml"
-      description    = "Minecraft server"
-    }
-      minecraft = {
-      name           = "minecraft-bed-srv001"
-      vmid           = 104
-      cores          = 2
-      memory         = 4096
-      vlan           = "server"
-      ip_address     = var.vm_ip_addresses["minecraft4"]
-      os_type        = "ubuntu"
-      cloudinit_file = "cloudinit/ubuntu-cloudinit.yaml"
-      description    = "Minecraft server"
-  }
 }
 }
