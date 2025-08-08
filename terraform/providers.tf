@@ -7,6 +7,7 @@ provider "proxmox" {
   pm_timeout          = 600
   pm_debug            = false
   pm_log_enable       = true
+  pm_minimum_permission_check = false
   pm_log_file         = "terraform-plugin-proxmox.log"
   pm_log_levels = {
     _default    = "debug"
